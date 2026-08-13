@@ -1,0 +1,48 @@
+<div class="otp-page">
+  <div class="otp-card">
+
+    <!-- Header -->
+    <div class="otp-header">
+      <span class="otp-icon">📱</span>
+      <h2 class="otp-title">OTP Verification</h2>
+      <p class="otp-sub">
+        A 6-digit code was sent to your registered phone
+        <strong *ngIf="phoneMasked"> {{ phoneMasked }}</strong>
+      </p>
+    </div>
+
+    <!-- Dev hint: show OTP for testing -->
+    <div class="dev-hint" *ngIf="devOtp">
+      OTP
+    </div>
+
+    <!-- Body -->
+    <div class="otp-body">
+
+      <div class="greeting" *ngIf="userName">
+        Hello, <strong>{{ userName }}</strong> 👋
+      </div>
+
+      <!-- Error -->
+      <div class="alert-error" *ngIf="errorMsg">❌ {{ errorMsg }}</div>
+
+      <!-- OTP input -->
+      <div class="field">
+        <label class="field-label">Enter OTP <span class="req">*</span></label>
+        <input class="otp-input" type="text" [(ngModel)]="otpCode"
+               maxlength="6" placeholder="_ _ _ _ _ _"
+               (keyup.enter)="verify()" />
+      </div>
+
+      <button class="btn-verify"
+              [disabled]="otpCode.length < 6 || loading"
+              (click)="verify()">
+        <span *ngIf="!loading">✅ Verify OTP</span>
+        <span *ngIf="loading">Verifying…</span>
+      </button>
+
+      <button class="btn-back" (click)="back()">← Back to Login</button>
+
+    </div>
+  </div>
+</div>

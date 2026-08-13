@@ -44,3 +44,36 @@ router.get('/', async (_req, res) => {
 });
 
 module.exports = router;
+
+// POST /api/users/login  — login with email + phone number
+router.post('/login', async (req, res) => {
+  const { emailId, phoneNumber } = req.body;
+
+  if (!emailId || !phoneNumber) {
+    return res.status(400).json({ error: 'emailId and phoneNumber are required' });
+  }
+
+  try {
+    const { rows } = await pool.query(`
+      SELECT u.user_id    AS "userId",
+             u.user_name  AS "userName",
+             u.email_id   AS "emailId",
+             u.phone_number AS "phoneNumber",
+             u.role_id    AS "roleId",
+             TRIM(r.role_name)     AS "roleName",
+             r.feature_allowed     AS "featureAllowed"
+      FROM new_user_table u
+      JOIN role_table r ON u.role_id = r.role_id
+      WHERE LOWER(u.email_id)    = LOWER($1)
+        AND u.phone_number       = $2
+    `, [emailId.trim(), phoneNumber.trim()]);
+
+    if (!rows.length) {
+      return res.status(401).json({ error: 'Invalid email or phone number' });
+    }
+
+    res.json({ success: true, user: rows[0] });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});

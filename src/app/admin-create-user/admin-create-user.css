@@ -180,3 +180,20 @@
 }
 .btn-create:hover:not(:disabled) { background: #2d4f78; }
 .btn-create:disabled { opacity: 0.42; cursor: not-allowed; }
+
+/* Login link row */
+.acu-footer        { flex-direction: column; gap: 12px; align-items: stretch; }
+.footer-actions    { display: flex; gap: 10px; justify-content: flex-end; }
+.btn-login-link {
+  background: none;
+  border: 1.5px solid #bae6fd;
+  color: #0369a1;
+  border-radius: 10px;
+  padding: 9px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+  transition: background 0.15s;
+}
+.btn-login-link:hover { background: #f0f9ff; }

@@ -1,33 +1,26 @@
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
-  // ── Entry (role selection — first page) ───────────────────
+  // ── Welcome (role select + login) — first page ───────────
   {
-    path: 'entry',
-    loadComponent: () => import('./entry/entry').then(m => m.EntryComponent),
+    path: 'welcome',
+    loadComponent: () => import('./welcome/welcome').then(m => m.WelcomeComponent),
   },
-  // ── Admin: Create User page ───────────────────────────────
+  // ── OTP verification ──────────────────────────────────────
   {
-    path: 'admin-create-user',
-    loadComponent: () => import('./admin-create-user/admin-create-user')
-      .then(m => m.AdminCreateUserComponent),
+    path: 'verify-otp',
+    loadComponent: () => import('./verify-otp/verify-otp').then(m => m.VerifyOtpComponent),
   },
-  // ── User registration (field operator / reviewer flow) ───
-  {
-    path: 'register',
-    loadComponent: () => import('./user-register/user-register')
-      .then(m => m.UserRegisterComponent),
-  },
-  // ── GIS Portal ────────────────────────────────────────────
+  // ── GIS Portal (after successful login) ───────────────────
   {
     path: '',
     loadComponent: () => import('./portal/portal').then(m => m.PortalComponent),
   },
-  // ── Admin Console (existing) ──────────────────────────────
+  // ── Admin Console ─────────────────────────────────────────
   {
     path: 'admin',
     loadChildren: () => import('./admin/admin.routes').then(m => m.adminRoutes),
   },
-  // Default
-  { path: '**', redirectTo: 'entry' },
+  // Default redirect → welcome
+  { path: '**', redirectTo: 'welcome' },
 ];

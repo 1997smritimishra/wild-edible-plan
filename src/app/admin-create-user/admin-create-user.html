@@ -86,13 +86,18 @@
 
     <!-- Footer -->
     <div class="acu-footer">
-      <button class="btn-cancel" (click)="back()">Cancel</button>
-      <button class="btn-create"
-              [disabled]="!userName.trim() || !selectedRoleId || saving"
-              (click)="createUser()">
-        <span *ngIf="!saving">➕ Create User</span>
-        <span *ngIf="saving">Creating…</span>
+      <button class="btn-login-link" (click)="goToLogin()">
+        🔑 Already have an account? Login
       </button>
+      <div class="footer-actions">
+        <button class="btn-cancel" (click)="back()">Cancel</button>
+        <button class="btn-create"
+                [disabled]="!userName.trim() || !selectedRoleId || saving"
+                (click)="createUser()">
+          <span *ngIf="!saving">➕ Create User</span>
+          <span *ngIf="saving">Creating…</span>
+        </button>
+      </div>
     </div>
 
   </div>

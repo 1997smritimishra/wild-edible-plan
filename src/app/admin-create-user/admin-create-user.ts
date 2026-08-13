@@ -97,15 +97,11 @@ export class AdminCreateUserComponent implements OnInit {
       emailId:     this.emailId.trim(),
     }).subscribe({
       next: () => {
-        this.successMsg = `✅ User "${this.userName}" created successfully!`;
+        this.successMsg = `✅ User "${this.userName}" created! Redirecting to login…`;
         this.saving     = false;
-        this.userName   = '';
-        this.phoneNumber = '';
-        this.emailId    = '';
-        this.selectedRoleId = null;
-        this.features   = [];
         this.cdr.markForCheck();
-        setTimeout(() => { this.successMsg = ''; this.cdr.markForCheck(); }, 3000);
+        // Redirect to login after 1.5 s
+        setTimeout(() => this.router.navigate(['/login']), 1500);
       },
       error: err => {
         this.errorMsg = 'Failed to create user: ' + (err.error?.error ?? err.message);
@@ -115,5 +111,6 @@ export class AdminCreateUserComponent implements OnInit {
     });
   }
 
-  back(): void { this.router.navigate(['/entry']); }
+  goToLogin(): void { this.router.navigate(['/login']); }
+  back(): void      { this.router.navigate(['/entry']); }
 }

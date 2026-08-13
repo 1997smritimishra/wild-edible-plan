@@ -1,0 +1,115 @@
+/* ── Page ──────────────────────────────────────── */
+.otp-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+  font-family: 'Segoe UI', Arial, sans-serif;
+  padding: 28px 16px;
+}
+
+/* ── Card ──────────────────────────────────────── */
+.otp-card {
+  background: #fff;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 400px;
+  overflow: hidden;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.35);
+}
+
+/* ── Header ────────────────────────────────────── */
+.otp-header {
+  background: linear-gradient(135deg, #14532d, #166534);
+  color: #fff;
+  padding: 28px 28px 22px;
+  text-align: center;
+}
+.otp-icon  { font-size: 36px; display: block; margin-bottom: 10px; }
+.otp-title { margin: 0 0 8px; font-size: 18px; font-weight: 800; }
+.otp-sub   { margin: 0; font-size: 13px; opacity: 0.85; line-height: 1.5; }
+
+/* ── Dev hint ──────────────────────────────────── */
+.dev-hint {
+  background: #fef9c3;
+  color: #92400e;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 10px 20px;
+  text-align: center;
+  border-bottom: 1px solid #fde68a;
+}
+
+/* ── Body ──────────────────────────────────────── */
+.otp-body {
+  padding: 28px 28px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.greeting { font-size: 14px; color: #374151; }
+.greeting strong { color: #14532d; }
+
+.alert-error {
+  padding: 9px 13px;
+  background: #fee2e2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+  border-radius: 9px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* ── Field ─────────────────────────────────────── */
+.field       { display: flex; flex-direction: column; gap: 6px; }
+.field-label { font-size: 11px; font-weight: 700; color: #374151; text-transform: uppercase; letter-spacing: 0.5px; }
+.req         { color: #dc2626; }
+
+.otp-input {
+  padding: 14px 18px;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 10px;
+  text-align: center;
+  color: #14532d;
+  background: #f9fafb;
+  outline: none;
+  font-family: monospace;
+  transition: border-color 0.18s;
+  width: 100%;
+  box-sizing: border-box;
+}
+.otp-input:focus { border-color: #14532d; background: #fff; }
+
+/* ── Buttons ───────────────────────────────────── */
+.btn-verify {
+  width: 100%;
+  padding: 13px;
+  background: #14532d;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(20,83,45,0.25);
+  transition: background 0.2s, transform 0.15s;
+}
+.btn-verify:hover:not(:disabled) { background: #166534; transform: translateY(-1px); }
+.btn-verify:disabled { opacity: 0.42; cursor: not-allowed; }
+
+.btn-back {
+  background: none;
+  border: none;
+  color: #6b7280;
+  font-size: 13px;
+  cursor: pointer;
+  text-align: center;
+  padding: 4px;
+  transition: color 0.15s;
+}
+.btn-back:hover { color: #374151; }

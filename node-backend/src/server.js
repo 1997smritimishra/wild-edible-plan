@@ -29,6 +29,7 @@ app.use('/api/observations', require('./routes/observations'));
 app.use('/api/identify',     require('./routes/identify'));
 app.use('/api/roles',        require('./routes/roles'));
 app.use('/api/users',        require('./routes/users'));
+app.use('/api/auth',         require('./routes/auth'));
 
 // Health check
 app.get('/api/health', (_req, res) => res.json({ status: 'ok', ts: new Date() }));
