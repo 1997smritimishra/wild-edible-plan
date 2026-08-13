@@ -1,0 +1,32 @@
+<div class="entry-page">
+  <div class="entry-wrap">
+
+    <!-- Brand -->
+    <div class="entry-brand">
+      <span class="brand-icon">🌿</span>
+      <h1 class="brand-title">Web GIS Plant Portal</h1>
+      <p class="brand-sub">Wild Edible Plant Database & GIS System</p>
+    </div>
+
+    <!-- Role label -->
+    <p class="role-label">Select your role to continue</p>
+
+    <!-- 3 Role Cards — all active -->
+    <div class="role-cards">
+      <div
+        *ngFor="let card of cards"
+        class="role-card"
+        [style.--card-color]="card.color"
+        (click)="select(card.id)"
+      >
+        <div class="card-top-bar"></div>
+        <div class="card-icon">{{ card.icon }}</div>
+        <div class="card-name">{{ card.label }}</div>
+        <div class="card-desc">{{ card.desc }}</div>
+        <div class="card-badge">{{ card.badge }}</div>
+        <div class="card-arrow">→</div>
+      </div>
+    </div>
+
+  </div>
+</div>

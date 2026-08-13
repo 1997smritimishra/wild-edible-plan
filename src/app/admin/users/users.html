@@ -1,0 +1,41 @@
+<div class="page-header">
+  <div>
+    <h2 class="page-title">User Management</h2>
+    <span class="page-sub">Manage portal user accounts and roles</span>
+  </div>
+  <button class="btn-primary">+ Add User</button>
+</div>
+
+<div class="card">
+  <div class="card-toolbar">
+    <input class="search-input" [(ngModel)]="searchQuery" placeholder="🔍  Search users…" />
+    <span class="result-count">{{ filteredUsers.length }} users</span>
+  </div>
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th>#</th><th>Name</th><th>Email</th><th>Role</th><th>Status</th><th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let u of filteredUsers">
+        <td class="muted">{{ u.id }}</td>
+        <td><strong>{{ u.name }}</strong></td>
+        <td class="muted">{{ u.email }}</td>
+        <td>
+          <span class="role-badge" [style.background]="roleColor(u.role) + '18'" [style.color]="roleColor(u.role)">
+            {{ u.role }}
+          </span>
+        </td>
+        <td>
+          <span class="status-dot" [class.active]="u.status === 'Active'"></span>
+          {{ u.status }}
+        </td>
+        <td class="action-cell">
+          <button class="act-btn edit">Edit</button>
+          <button class="act-btn delete">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,9 @@
+.map {
+  width:    100%;
+  height:   100vh;
+  height:   100dvh;          /* dynamic viewport height — Chrome 108+, Edge 108+, Firefox 109+ */
+  position: relative;        /* needed for OpenLayers overlay positioning */
+  display:  block;
+  /* Prevent grey flash during tile load in Firefox */
+  background: #1a2535;
+}

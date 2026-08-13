@@ -1,0 +1,376 @@
+/* ── Terrain Menu Button ───────────────────────────────── */
+.terrain-menu-btn {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 1100;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: #1e2a38;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.35);
+  transition: background 0.2s;
+}
+.terrain-menu-btn:hover { background: #2d3f55; }
+
+/* ── Pick-mode hint bar ────────────────────────────────── */
+.pick-hint {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2000;
+  background: #f59e0b;
+  color: #1a1a1a;
+  text-align: center;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+.pick-hint button {
+  background: #1a1a1a;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 4px 12px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+/* ── Side Panel ────────────────────────────────────────── */
+.side-panel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  /* Fluid: 300px on 1080p, naturally wider on 1920p */
+  width: clamp(280px, 16vw, 400px);
+  height: 100vh;
+  height: 100dvh;
+  background: #e8edf3;
+  color: #1a2535;
+  z-index: 1050;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 4px 0 16px rgba(0,0,0,0.25);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  overflow: hidden;
+}
+.side-panel.open { transform: translateX(0); }
+
+/* ── Header ────────────────────────────────────────────── */
+.panel-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 16px;
+  background: #1e2a38;
+  color: #fff;
+}
+.header-icon { font-size: 18px; }
+.panel-header h3 {
+  margin: 0;
+  flex: 1;
+  font-size: 15px;
+  font-weight: 600;
+}
+.close-btn {
+  background: none;
+  border: none;
+  color: #8a9bb0;
+  font-size: 17px;
+  cursor: pointer;
+  padding: 2px 5px;
+  border-radius: 4px;
+  transition: color 0.2s;
+}
+.close-btn:hover { color: #fff; }
+
+/* ── Body ──────────────────────────────────────────────── */
+.panel-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 14px 14px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background: #e8edf3;
+}
+
+/* ── Section label ─────────────────────────────────────── */
+.section-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #1e3a5f;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.section-bar {
+  width: 4px;
+  height: 16px;
+  background: #2563eb;
+  border-radius: 2px;
+  display: inline-block;
+}
+
+/* ── Coord rows ────────────────────────────────────────── */
+.coord-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.coord-pair {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.form-group input[type="number"] {
+  background: #fff;
+  border: 1px solid #c8d4e0;
+  border-radius: 4px;
+  padding: 7px 8px;
+  font-size: 12px;
+  color: #1a2535;
+  outline: none;
+  width: 100%;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+.form-group input[type="number"]:focus { border-color: #2563eb; }
+/* hide number spinners — Chrome, Edge, Safari */
+.form-group input[type="number"]::-webkit-outer-spin-button,
+.form-group input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; }
+/* Firefox + standard */
+.form-group input[type="number"] { -moz-appearance: textfield; appearance: textfield; }
+
+.field-hint {
+  font-size: 10px;
+  color: #2563eb;
+}
+.field-hint.error-hint { color: #ef4444; }
+
+/* ── Pin (location) button ─────────────────────────────── */
+.pin-btn {
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 2px solid #2563eb;
+  background: #fff;
+  color: #1e3a5f;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, color 0.2s;
+  margin-top: 2px;
+  padding: 0;
+}
+.pin-btn:hover { background: #dbeafe; }
+.pin-btn.active {
+  background: #2563eb;
+  color: #fff;
+  box-shadow: 0 0 0 3px rgba(37,99,235,0.3);
+}
+
+/* ── Divider ───────────────────────────────────────────── */
+.divider {
+  border: none;
+  border-top: 1px solid #c8d4e0;
+  margin: 0;
+}
+
+/* ── Angle rows ────────────────────────────────────────── */
+.angle-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.angle-label {
+  width: 72px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #2563eb;
+  text-align: right;
+  line-height: 1.3;
+  flex-shrink: 0;
+}
+.angle-label small {
+  font-size: 10px;
+  font-weight: 400;
+  color: #5b8fd6;
+}
+.angle-num {
+  width: 52px;
+  flex-shrink: 0;
+  background: #fff;
+  border: 1px solid #c8d4e0;
+  border-radius: 4px;
+  padding: 6px 6px;
+  font-size: 13px;
+  text-align: center;
+  color: #1a2535;
+  outline: none;
+}
+.angle-num::-webkit-outer-spin-button,
+.angle-num::-webkit-inner-spin-button { -webkit-appearance: none; }
+.angle-num { -moz-appearance: textfield; appearance: textfield; }
+.angle-num:focus { border-color: #2563eb; }
+
+.angle-slider {
+  flex: 1;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border-radius: 2px;
+  background: #c8d4e0;
+  outline: none;
+  cursor: pointer;
+}
+/* Chrome & Edge thumb */
+.angle-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #2563eb;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+}
+/* Firefox thumb */
+.angle-slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: none;
+  background: #2563eb;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+}
+/* Firefox track */
+.angle-slider::-moz-range-track {
+  height: 4px;
+  background: #c8d4e0;
+  border-radius: 2px;
+}
+
+/* ── Action buttons ────────────────────────────────────── */
+.action-row {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+.btn {
+  padding: 8px 28px;
+  border-radius: 20px;
+  border: 1.5px solid #1e3a5f;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, opacity 0.2s;
+}
+.btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+.btn-reset {
+  background: #fff;
+  color: #1e3a5f;
+}
+.btn-reset:hover:not(:disabled) { background: #dbeafe; }
+
+.btn-generate {
+  background: #1e3a5f;
+  color: #fff;
+  border-color: #1e3a5f;
+}
+.btn-generate:hover:not(:disabled) { background: #2d4f78; }
+
+/* ── Circular progress ─────────────────────────────────── */
+.circle-progress-wrap {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  margin: 8px auto 0;
+}
+.circle-svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg); /* start arc from top */
+}
+.circle-track {
+  fill: none;
+  stroke: #c8d4e0;
+  stroke-width: 7;
+}
+.circle-fill {
+  fill: none;
+  stroke: #2563eb;
+  stroke-width: 7;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.5s ease;
+}
+.circle-fill-done {
+  stroke: #16a34a;  /* green when 100% */
+  transition: stroke 0.3s ease, stroke-dashoffset 0.5s ease;
+}
+.circle-pct {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 700;
+  color: #2563eb;
+}
+.circle-pct.done { color: #16a34a; }
+
+/* ── Status messages ───────────────────────────────────── */
+.status-msg {
+  font-size: 12px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  text-align: center;
+}
+.status-msg.success {
+  background: rgba(34,197,94,0.12);
+  color: #16a34a;
+  border: 1px solid rgba(34,197,94,0.3);
+}
+.status-msg.error-msg {
+  background: rgba(239,68,68,0.10);
+  color: #dc2626;
+  border: 1px solid rgba(239,68,68,0.25);
+}
+
+/* ── Backdrop ──────────────────────────────────────────── */
+.panel-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.25);
+  z-index: 1040;
+}

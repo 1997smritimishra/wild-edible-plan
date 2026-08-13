@@ -1,1 +1,65 @@
-/* You can add global styles to this file, and also import other style files */
+@import "ol/ol.css";
+
+/* ── Cross-browser reset ─────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;  /* Safari / older Chrome */
+}
+
+html, body {
+  margin:  0;
+  padding: 0;
+  height:  100%;
+  /* Prevent horizontal scroll at any desktop width */
+  overflow-x: hidden;
+  /* Consistent font rendering across Chrome, Edge, Firefox */
+  -webkit-font-smoothing:  antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Minimum supported width — Full HD (1920 × 1080) */
+body {
+  min-width:  1280px;   /* allow some flex below 1920 without breaking layout */
+  min-height: 100vh;
+}
+
+app-root {
+  display: block;
+  height: 100%;
+}
+
+/* ── Scrollbar styling — Chrome & Edge ──────────────────────────────────── */
+::-webkit-scrollbar        { width: 6px; height: 6px; }
+::-webkit-scrollbar-track  { background: #e8edf3; }
+::-webkit-scrollbar-thumb  { background: #7a9cc0; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #4a7dab; }
+
+/* Firefox scrollbar */
+* { scrollbar-width: thin; scrollbar-color: #7a9cc0 #e8edf3; }
+
+/* ── Focus outline — accessibility across all browsers ──────────────────── */
+:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+:focus:not(:focus-visible) { outline: none; }
+
+/* ── Button base reset — removes browser default styles ─────────────────── */
+button {
+  font-family: inherit;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+/* ── Input base reset ────────────────────────────────────────────────────── */
+input {
+  font-family: inherit;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+/* Restore range input appearance (overridden per-component) */
+input[type="range"] {
+  -webkit-appearance: auto;
+  -moz-appearance: auto;
+}

@@ -1,0 +1,280 @@
+<!-- Plant Menu Button -->
+<button class="plant-menu-btn" (click)="togglePanel()" title="Plant Data">
+  <span class="icon">🌿</span>
+  <span class="label">Plants</span>
+</button>
+
+<!-- Side Panel -->
+<div class="plant-panel" [class.open]="panelOpen">
+
+  <!-- Header -->
+  <div class="plant-header">
+    <span class="header-icon">🌿</span>
+    <h3>Plant Data</h3>
+    <!-- Upload Button -->
+    <button class="btn-upload-header" (click)="openUpload()" title="Upload Plant">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z"/>
+      </svg>
+      Upload
+    </button>
+    <button class="close-btn" (click)="togglePanel()">✕</button>
+  </div>
+
+  <!-- Body -->
+  <div class="plant-body">
+
+    <!-- Loading -->
+    <div class="state-msg" *ngIf="loading">
+      <span class="spinner"></span> Loading plant data…
+    </div>
+
+    <!-- Error -->
+    <div class="state-msg error" *ngIf="errorMsg && !loading">
+      ❌ {{ errorMsg }}
+    </div>
+
+    <!-- Summary + Download -->
+    <div class="summary-row" *ngIf="!loading && !errorMsg && plants.length">
+      <span class="record-count">{{ plants.length }} records found</span>
+      <button class="btn-download" *ngIf="canDownload" (click)="downloadPDF()">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M19 9h-4V3H9v6H5l7 7 7-7zm-14 9v2h14v-2H5z"/>
+        </svg>
+        Download PDF
+      </button>
+    </div>
+
+    <!-- Plant Table -->
+    <div class="table-wrap" *ngIf="!loading && plants.length">
+      <table class="plant-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Common Name</th>
+            <th>Scientific Name</th>
+            <th>Family</th>
+            <th>Latitude</th>
+            <th>Longitude</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let p of plants; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ p.commonName }}</td>
+            <td class="italic">{{ p.scientificName }}</td>
+            <td>{{ p.family }}</td>
+            <td>{{ p.latitude }}</td>
+            <td>{{ p.longitude }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Empty -->
+    <div class="state-msg" *ngIf="!loading && !errorMsg && !plants.length">
+      No plant records found.
+    </div>
+
+  </div>
+</div>
+
+<!-- Backdrop -->
+<div class="plant-backdrop" *ngIf="panelOpen" (click)="togglePanel()"></div>
+
+
+<!-- ══════════════════════════════════════════════════
+     Upload Popup Modal
+══════════════════════════════════════════════════ -->
+<div class="modal-overlay" *ngIf="uploadOpen" (click)="closeUpload()"></div>
+
+<div class="upload-modal" *ngIf="uploadOpen">
+
+  <!-- Modal Header -->
+  <div class="modal-header">
+    <div class="modal-title-row">
+      <span class="modal-icon">🌿</span>
+      <h3 class="modal-title">Upload Plant Record</h3>
+    </div>
+    <button class="modal-close" (click)="closeUpload()">✕</button>
+  </div>
+
+  <!-- Scrollable Modal Body -->
+  <div class="modal-body">
+
+    <!-- ── Image Upload Zone ──────────────────────── -->
+    <div class="upload-zone" [class.has-preview]="uploadForm.previewUrl"
+         (click)="fileInput.click()">
+      <ng-container *ngIf="!uploadForm.previewUrl">
+        <div class="upload-icon">
+          <svg width="38" height="38" viewBox="0 0 24 24" fill="none"
+               stroke="#14532d" stroke-width="1.5">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="17 8 12 3 7 8"/>
+            <line x1="12" y1="3" x2="12" y2="15"/>
+          </svg>
+        </div>
+        <p class="upload-hint">Click to select image</p>
+        <p class="upload-sub">JPG, PNG, WEBP — max 10 MB</p>
+      </ng-container>
+      <img *ngIf="uploadForm.previewUrl" [src]="uploadForm.previewUrl"
+           class="img-preview" alt="Preview" />
+      <div class="preview-overlay" *ngIf="uploadForm.previewUrl">
+        <span>Change Image</span>
+      </div>
+    </div>
+    <input #fileInput type="file" accept="image/*"
+           style="display:none" (change)="onFileSelected($event)" />
+
+    <!-- ══ Section: Basic Identity ══ -->
+    <div class="form-section">
+      <div class="section-heading">
+        <span class="section-bar"></span> Basic Information
+      </div>
+      <div class="field-row-2">
+        <div class="field-group">
+          <label class="field-label">Common Name <span class="req">*</span></label>
+          <input class="field-input" type="text" [(ngModel)]="uploadForm.commonName"
+                 placeholder="e.g. Neem" />
+        </div>
+        <div class="field-group">
+          <label class="field-label">Scientific Name <span class="req">*</span></label>
+          <input class="field-input" type="text" [(ngModel)]="uploadForm.scientificName"
+                 placeholder="e.g. Azadirachta indica" />
+        </div>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Family</label>
+        <input class="field-input" type="text" [(ngModel)]="uploadForm.family"
+               placeholder="e.g. Meliaceae" />
+      </div>
+    </div>
+
+    <!-- ══ Section: Ecology ══ -->
+    <div class="form-section">
+      <div class="section-heading">
+        <span class="section-bar"></span> Ecology & Distribution
+      </div>
+      <div class="field-row-2">
+        <div class="field-group">
+          <label class="field-label">Habitat</label>
+          <input class="field-input" type="text" [(ngModel)]="uploadForm.habitat"
+                 placeholder="e.g. Tropical Forest" />
+        </div>
+        <div class="field-group">
+          <label class="field-label">Distribution</label>
+          <input class="field-input" type="text" [(ngModel)]="uploadForm.distribution"
+                 placeholder="e.g. India" />
+        </div>
+      </div>
+      <div class="field-row-2">
+        <div class="field-group">
+          <label class="field-label">Flowering Season</label>
+          <input class="field-input" type="text" [(ngModel)]="uploadForm.floweringSeason"
+                 placeholder="e.g. March–May" />
+        </div>
+        <div class="field-group">
+          <label class="field-label">Conservation Status</label>
+          <input class="field-input" type="text" [(ngModel)]="uploadForm.conservationStatus"
+                 placeholder="e.g. Least Concern" />
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ Section: Edibility ══ -->
+    <div class="form-section">
+      <div class="section-heading">
+        <span class="section-bar"></span> Edibility & Nutrition
+      </div>
+      <div class="field-group">
+        <label class="field-label">Edible Parts</label>
+        <input class="field-input" type="text" [(ngModel)]="uploadForm.edibleParts"
+               placeholder="e.g. Leaves, Fruits" />
+      </div>
+      <div class="field-group">
+        <label class="field-label">Nutritional Value</label>
+        <textarea class="field-input field-textarea" [(ngModel)]="uploadForm.nutritionalValue"
+                  placeholder="e.g. Rich in antioxidants, Vitamin C…" rows="3"></textarea>
+      </div>
+    </div>
+
+    <!-- ══ Section: Location ══ -->
+    <div class="form-section">
+      <div class="section-heading">
+        <span class="section-bar"></span> Geo Location
+      </div>
+      <div class="field-row-2">
+        <div class="field-group">
+          <label class="field-label">Latitude</label>
+          <input class="field-input" type="number" step="0.0001"
+                 [(ngModel)]="uploadForm.latitude" placeholder="e.g. 12.9716" />
+        </div>
+        <div class="field-group">
+          <label class="field-label">Longitude</label>
+          <input class="field-input" type="number" step="0.0001"
+                 [(ngModel)]="uploadForm.longitude" placeholder="e.g. 77.5946" />
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ Section: Meta ══ -->
+    <div class="form-section">
+      <div class="section-heading">
+        <span class="section-bar"></span> Record Metadata
+      </div>
+      <div class="field-row-2">
+        <div class="field-group">
+          <label class="field-label">Image ID</label>
+          <input class="field-input" type="number"
+                 [(ngModel)]="uploadForm.imageId" placeholder="e.g. 101" />
+        </div>
+        <div class="field-group">
+          <label class="field-label">Image URL</label>
+          <input class="field-input" type="text"
+                 [(ngModel)]="uploadForm.imageUrl" placeholder="e.g. neem.jpg" />
+        </div>
+      </div>
+      <div class="field-row-2">
+        <div class="field-group">
+          <label class="field-label">Uploaded By (User ID) <span class="req">*</span></label>
+          <input class="field-input" type="number"
+                 [(ngModel)]="uploadForm.uploadedBy" placeholder="e.g. 1" />
+        </div>
+        <div class="field-group">
+          <label class="field-label">Created Date</label>
+          <input class="field-input" type="date"
+                 [(ngModel)]="uploadForm.createdDate" />
+        </div>
+      </div>
+      <div class="field-group">
+        <label class="field-label toggle-label">
+          Verified Status
+          <label class="toggle-switch">
+            <input type="checkbox" [(ngModel)]="uploadForm.verifiedStatus" />
+            <span class="toggle-track">
+              <span class="toggle-thumb"></span>
+            </span>
+          </label>
+          <span class="toggle-val" [class.yes]="uploadForm.verifiedStatus">
+            {{ uploadForm.verifiedStatus ? 'Verified ✓' : 'Unverified' }}
+          </span>
+        </label>
+      </div>
+    </div>
+
+  </div><!-- /modal-body -->
+
+  <!-- Modal Footer -->
+  <div class="modal-footer">
+    <button class="btn-cancel" (click)="closeUpload()">Cancel</button>
+    <button class="btn-submit"
+            [disabled]="!uploadForm.commonName || !uploadForm.scientificName
+                        || !uploadForm.uploadedBy || !uploadForm.imageFile">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z"/>
+      </svg>
+      Submit Upload
+    </button>
+  </div>
+
+</div>

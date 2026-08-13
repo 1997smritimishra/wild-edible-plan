@@ -1,0 +1,99 @@
+<div class="acu-page">
+  <div class="acu-card">
+
+    <!-- Header -->
+    <div class="acu-header">
+      <button class="back-btn" (click)="back()" title="Back">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M15 18l-6-6 6-6"/>
+        </svg>
+      </button>
+      <span class="header-icon">🔧</span>
+      <div>
+        <h2 class="header-title">Admin — Create User</h2>
+        <p class="header-sub">Only Admin can create users</p>
+      </div>
+    </div>
+
+    <!-- Body -->
+    <div class="acu-body">
+
+      <!-- Loading roles -->
+      <div class="state-msg" *ngIf="loading">Loading roles…</div>
+
+      <!-- Success -->
+      <div class="alert success" *ngIf="successMsg">{{ successMsg }}</div>
+
+      <!-- Error -->
+      <div class="alert error" *ngIf="errorMsg && !loading">❌ {{ errorMsg }}</div>
+
+      <!-- Form -->
+      <div class="form-grid" *ngIf="!loading">
+
+        <!-- User Name -->
+        <div class="field">
+          <label class="field-label">User Name <span class="req">*</span></label>
+          <input class="field-input" type="text" [(ngModel)]="userName"
+                 placeholder="e.g. Sunita Sharma" />
+        </div>
+
+        <!-- Phone -->
+        <div class="field">
+          <label class="field-label">Phone Number</label>
+          <input class="field-input" type="tel" [(ngModel)]="phoneNumber"
+                 placeholder="e.g. 9876543210" />
+        </div>
+
+        <!-- Email -->
+        <div class="field">
+          <label class="field-label">Email ID</label>
+          <input class="field-input" type="email" [(ngModel)]="emailId"
+                 placeholder="e.g. sunita@example.com" />
+        </div>
+
+        <!-- Role dropdown -->
+        <div class="field">
+          <label class="field-label">Role <span class="req">*</span></label>
+          <select class="field-input field-select"
+                  [(ngModel)]="selectedRoleId"
+                  (ngModelChange)="onRoleChange()">
+            <option [ngValue]="null" disabled>— Select a role —</option>
+            <option *ngFor="let r of roles" [ngValue]="r.roleId">
+              {{ r.roleName }}
+            </option>
+          </select>
+        </div>
+
+      </div><!-- /form-grid -->
+
+      <!-- Feature Preview (appears after selecting a role) -->
+      <div class="feature-preview" *ngIf="features.length">
+        <div class="fp-title">
+          <span>🔒</span> Features allowed for this role
+        </div>
+        <div class="fp-list">
+          <div class="fp-item" *ngFor="let f of features">
+            <span class="fp-icon">{{ featureIcon(f.featureName) }}</span>
+            <div class="fp-info">
+              <span class="fp-name">{{ f.featureName }}</span>
+              <span class="fp-perms">{{ f.permissions }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /body -->
+
+    <!-- Footer -->
+    <div class="acu-footer">
+      <button class="btn-cancel" (click)="back()">Cancel</button>
+      <button class="btn-create"
+              [disabled]="!userName.trim() || !selectedRoleId || saving"
+              (click)="createUser()">
+        <span *ngIf="!saving">➕ Create User</span>
+        <span *ngIf="saving">Creating…</span>
+      </button>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,52 @@
+<!-- ── Admin Console Layout ──────────────────────────── -->
+<div class="admin-layout" [class.sidebar-collapsed]="!sidebarOpen">
+
+  <!-- ── Sidebar ──────────────────────────────────────── -->
+  <aside class="admin-sidebar">
+    <div class="brand">
+      <span class="brand-icon">🌿</span>
+      <span class="brand-name">GIS Admin</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a
+        *ngFor="let item of navItems"
+        class="nav-item"
+        [routerLink]="item.route"
+        routerLinkActive="active"
+      >
+        <span class="nav-icon">{{ item.icon }}</span>
+        <span class="nav-label">{{ item.label }}</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <a routerLink="/" class="nav-item back-link">
+        <span class="nav-icon">🗺️</span>
+        <span class="nav-label">Back to Portal</span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- ── Main area ─────────────────────────────────────── -->
+  <div class="admin-main">
+
+    <!-- Top Bar -->
+    <header class="admin-topbar">
+      <button class="toggle-btn" (click)="toggleSidebar()" title="Toggle sidebar">
+        <span class="hamburger">☰</span>
+      </button>
+      <h1 class="page-title">Administrative Console</h1>
+      <div class="topbar-actions">
+        <span class="admin-badge">Admin</span>
+        <button class="btn-logout">Logout</button>
+      </div>
+    </header>
+
+    <!-- Page content -->
+    <main class="admin-content">
+      <router-outlet></router-outlet>
+    </main>
+
+  </div>
+</div>

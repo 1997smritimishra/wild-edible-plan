@@ -1,0 +1,113 @@
+<div class="register-page">
+  <div class="register-card">
+
+    <!-- Header -->
+    <div class="reg-header">
+      <button class="back-btn" (click)="back()" title="Back">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M15 18l-6-6 6-6"/>
+        </svg>
+      </button>
+      <span class="reg-icon">👤</span>
+      <div>
+        <h2 class="reg-title">User Details</h2>
+        <p class="reg-sub">Enter your information to access the portal</p>
+      </div>
+    </div>
+
+    <!-- Form -->
+    <div class="reg-body">
+
+      <!-- Name -->
+      <div class="field-group">
+        <label class="field-label">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 12c2.7 0 4-1.8 4-4s-1.3-4-4-4-4 1.8-4 4 1.3 4 4 4zm0 2c-2.7 0-8 1.3-8 4v2h16v-2c0-2.7-5.3-4-8-4z"/>
+          </svg>
+          User Name <span class="req">*</span>
+        </label>
+        <input class="field-input" type="text" [(ngModel)]="name"
+               placeholder="e.g. Rajan Kumar" />
+      </div>
+
+      <!-- Phone -->
+      <div class="field-group">
+        <label class="field-label">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/>
+          </svg>
+          Phone Number
+        </label>
+        <input class="field-input" type="tel" [(ngModel)]="phone"
+               placeholder="e.g. +91 9876543210" />
+      </div>
+
+      <!-- Email -->
+      <div class="field-group">
+        <label class="field-label">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+          </svg>
+          Email ID <span class="req">*</span>
+        </label>
+        <input class="field-input" type="email" [(ngModel)]="email"
+               placeholder="e.g. user@example.com" />
+      </div>
+
+      <!-- Role / Permission -->
+      <div class="field-group">
+        <label class="field-label">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 1L3 5v6c0 5.5 3.8 10.7 9 12 5.2-1.3 9-6.5 9-12V5l-9-4z"/>
+          </svg>
+          Role / Permission <span class="req">*</span>
+        </label>
+
+        <div class="permission-options">
+
+          <label class="perm-option" [class.selected]="permission === 'view'">
+            <input type="radio" name="perm" value="view" [(ngModel)]="permission" />
+            <div class="perm-icon">👁️</div>
+            <div class="perm-info">
+              <span class="perm-name">View Only</span>
+              <span class="perm-desc">Browse plant data, no download</span>
+            </div>
+          </label>
+
+          <label class="perm-option" [class.selected]="permission === 'download'">
+            <input type="radio" name="perm" value="download" [(ngModel)]="permission" />
+            <div class="perm-icon">⬇️</div>
+            <div class="perm-info">
+              <span class="perm-name">Download</span>
+              <span class="perm-desc">Download PDF report only</span>
+            </div>
+          </label>
+
+          <label class="perm-option" [class.selected]="permission === 'both'">
+            <input type="radio" name="perm" value="both" [(ngModel)]="permission" />
+            <div class="perm-icon">✅</div>
+            <div class="perm-info">
+              <span class="perm-name">Both</span>
+              <span class="perm-desc">View data and download PDF</span>
+            </div>
+          </label>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="reg-footer">
+      <button class="btn-enter"
+              (click)="enter()"
+              [disabled]="!name.trim() || !email.trim()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M10 17l5-5-5-5v10z"/>
+        </svg>
+        Enter Portal
+      </button>
+    </div>
+
+  </div>
+</div>

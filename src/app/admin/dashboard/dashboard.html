@@ -1,0 +1,42 @@
+<div class="page-header">
+  <h2 class="page-title">Dashboard</h2>
+  <span class="page-sub">Welcome back, Admin</span>
+</div>
+
+<!-- ── Stat Cards ────────────────────────────────────── -->
+<div class="stat-grid">
+  <div class="stat-card" *ngFor="let s of stats">
+    <div class="stat-icon" [style.background]="s.color + '18'" [style.color]="s.color">
+      {{ s.icon }}
+    </div>
+    <div class="stat-info">
+      <div class="stat-value">{{ s.value }}</div>
+      <div class="stat-label">{{ s.label }}</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Recent Activity ───────────────────────────────── -->
+<div class="card mt-4">
+  <div class="card-header">Recent Activity</div>
+  <div class="card-body p-0">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>User</th>
+          <th>Action</th>
+          <th>Time</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let a of recentActivity">
+          <td><span class="user-chip">{{ a.user }}</span></td>
+          <td>{{ a.action }}</td>
+          <td class="muted">{{ a.time }}</td>
+          <td><span class="badge badge-{{ a.type }}">{{ a.type }}</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

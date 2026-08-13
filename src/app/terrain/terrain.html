@@ -1,0 +1,133 @@
+<!-- Terrain Menu Button -->
+<button class="terrain-menu-btn" (click)="togglePanel()" title="Terrain Analysis">
+  <span class="icon">⛰</span>
+  <span class="label">Terrain</span>
+</button>
+
+<!-- Pick-mode hint bar -->
+<div class="pick-hint" *ngIf="activePickTarget !== null">
+  <span>🖱 Click on the map to pick the
+    {{ activePickTarget === 'topLeft' ? 'Top-Left' : 'Bottom-Right' }} corner
+  </span>
+  <button (click)="togglePick(activePickTarget)">Cancel</button>
+</div>
+
+<!-- Side Panel -->
+<div class="side-panel" [class.open]="panelOpen">
+
+  <div class="panel-header">
+    <span class="header-icon">⛰</span>
+    <h3>Terrain Analysis</h3>
+    <button class="close-btn" (click)="togglePanel()">✕</button>
+  </div>
+
+  <div class="panel-body">
+
+    <!-- Select AOI -->
+    <section class="form-section">
+      <div class="section-label">
+        <span class="section-bar"></span> Select AOI
+      </div>
+
+      <!-- Row 1: Left Lon + Top Lat -->
+      <div class="coord-row">
+        <div class="coord-pair">
+          <div class="form-group">
+            <input type="number" [(ngModel)]="leftLon"   placeholder="Left Longitude"  step="0.0001" />
+            <span class="field-hint" [class.error-hint]="leftLon == null">
+              {{ leftLon != null ? leftLon : 'Enter Value' }}
+            </span>
+          </div>
+          <div class="form-group">
+            <input type="number" [(ngModel)]="topLat"    placeholder="Top Latitude"    step="0.0001" />
+            <span class="field-hint" [class.error-hint]="topLat == null">
+              {{ topLat != null ? topLat : 'Enter Value' }}
+            </span>
+          </div>
+        </div>
+        <button class="pin-btn" [class.active]="activePickTarget === 'topLeft'"
+                (click)="togglePick('topLeft')" title="Pick Top-Left from map">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0
+              9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Row 2: Right Lon + Bottom Lat -->
+      <div class="coord-row">
+        <div class="coord-pair">
+          <div class="form-group">
+            <input type="number" [(ngModel)]="rightLon"  placeholder="Right Longitude" step="0.0001" />
+            <span class="field-hint" [class.error-hint]="rightLon == null">
+              {{ rightLon != null ? rightLon : 'Enter Value' }}
+            </span>
+          </div>
+          <div class="form-group">
+            <input type="number" [(ngModel)]="bottomLat" placeholder="Bottom Latitude" step="0.0001" />
+            <span class="field-hint" [class.error-hint]="bottomLat == null">
+              {{ bottomLat != null ? bottomLat : 'Enter Value' }}
+            </span>
+          </div>
+        </div>
+        <button class="pin-btn" [class.active]="activePickTarget === 'bottomRight'"
+                (click)="togglePick('bottomRight')" title="Pick Bottom-Right from map">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0
+              9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+          </svg>
+        </button>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- Angles -->
+    <section class="form-section">
+      <div class="angle-row">
+        <label class="angle-label">Vertical Angle<br /><small>(Deg)</small></label>
+        <input class="angle-num" type="number" [(ngModel)]="verticalAngle" min="0" max="90"  step="1" />
+        <input class="angle-slider" type="range" [(ngModel)]="verticalAngle" min="0" max="90"  step="1" />
+      </div>
+      <div class="angle-row">
+        <label class="angle-label">Azimuth<br /><small>(Deg)</small></label>
+        <input class="angle-num" type="number" [(ngModel)]="azimuthAngle"  min="0" max="360" step="1" />
+        <input class="angle-slider" type="range" [(ngModel)]="azimuthAngle"  min="0" max="360" step="1" />
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- Action Buttons -->
+    <div class="action-row">
+      <button class="btn btn-reset"    (click)="reset()"    [disabled]="state === 'running'">Reset</button>
+      <button class="btn btn-generate" (click)="generate()" [disabled]="state === 'running'">
+        {{ state === 'running' ? 'Processing…' : 'Generate' }}
+      </button>
+    </div>
+
+    <!-- Circular Progress — visible while running OR done (stays at 100% after finish) -->
+    <div class="circle-progress-wrap" *ngIf="state === 'running' || state === 'done'">
+      <svg class="circle-svg" viewBox="0 0 80 80">
+        <circle cx="40" cy="40" r="36" class="circle-track" />
+        <circle
+          cx="40" cy="40" r="36"
+          class="circle-fill"
+          [class.circle-fill-done]="progress === 100"
+          [attr.stroke-dasharray]="circumference"
+          [attr.stroke-dashoffset]="dashoffset"
+        />
+      </svg>
+      <span class="circle-pct" [class.done]="progress === 100">{{ progress }}%</span>
+    </div>
+
+    <!-- Error -->
+    <div class="status-msg error-msg" *ngIf="state === 'error'">
+      ❌ {{ errorMsg }}
+    </div>
+
+  </div>
+</div>
+
+<!-- Backdrop -->
+<div class="panel-backdrop" *ngIf="panelOpen" (click)="togglePanel()"></div>

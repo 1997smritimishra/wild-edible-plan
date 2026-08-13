@@ -1,0 +1,534 @@
+/* ── Plant Menu Button ─────────────────────────────────── */
+.plant-menu-btn {
+  position: fixed;
+  top: 12px;
+  left: 140px;           /* terrain button এর পাশে */
+  z-index: 1100;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: #14532d;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.35);
+  transition: background 0.2s;
+}
+.plant-menu-btn:hover { background: #166534; }
+
+/* ── Side Panel ────────────────────────────────────────── */
+.plant-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  /* Fluid: 420px on 1080p, naturally wider on 1920p */
+  width: clamp(380px, 22vw, 560px);
+  height: 100vh;
+  height: 100dvh;
+  background: #f0f4f0;
+  color: #1a2535;
+  z-index: 1050;
+  display: flex;
+  flex-direction: column;
+  box-shadow: -4px 0 16px rgba(0,0,0,0.25);
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+  overflow: hidden;
+}
+.plant-panel.open { transform: translateX(0); }
+
+/* ── Header ────────────────────────────────────────────── */
+.plant-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 16px;
+  background: #14532d;
+  color: #fff;
+  flex-shrink: 0;
+}
+.header-icon { font-size: 18px; }
+.plant-header h3 {
+  margin: 0;
+  flex: 1;
+  font-size: 15px;
+  font-weight: 600;
+}
+.close-btn {
+  background: none;
+  border: none;
+  color: #86efac;
+  font-size: 17px;
+  cursor: pointer;
+  padding: 2px 5px;
+  border-radius: 4px;
+  transition: color 0.2s;
+}
+.close-btn:hover { color: #fff; }
+
+/* ── Body ──────────────────────────────────────────────── */
+.plant-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ── Summary row ───────────────────────────────────────── */
+.summary-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  border-radius: 8px;
+  padding: 10px 14px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+.record-count {
+  font-size: 13px;
+  font-weight: 600;
+  color: #14532d;
+}
+
+/* ── Download button ───────────────────────────────────── */
+.btn-download {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 18px;
+  background: #14532d;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(20,83,45,0.3);
+  transition: background 0.2s, transform 0.1s;
+}
+.btn-download:hover  { background: #166534; }
+.btn-download:active { transform: scale(0.97); }
+
+/* ── Table wrapper ─────────────────────────────────────── */
+.table-wrap {
+  overflow-x: auto;
+  border-radius: 8px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.10);
+}
+
+/* ── Plant table ───────────────────────────────────────── */
+.plant-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  background: #fff;
+}
+.plant-table thead tr {
+  background: #14532d;
+  color: #fff;
+}
+.plant-table th {
+  padding: 9px 10px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  white-space: nowrap;
+}
+.plant-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid #e2ede6;
+  color: #1a2535;
+}
+.plant-table tbody tr:nth-child(even) { background: #f0faf3; }
+.plant-table tbody tr:hover           { background: #dcfce7; }
+.italic { font-style: italic; color: #374151; }
+
+/* ── State messages ────────────────────────────────────── */
+.state-msg {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: #374151;
+  padding: 16px;
+  justify-content: center;
+}
+.state-msg.error { color: #dc2626; }
+
+/* ── Spinner ───────────────────────────────────────────── */
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 3px solid #d1fae5;
+  border-top-color: #14532d;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  display: inline-block;
+  flex-shrink: 0;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Backdrop ──────────────────────────────────────────── */
+.plant-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.20);
+  z-index: 1040;
+}
+
+/* ── Upload button in panel header ────────────────────── */
+.btn-upload-header {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.35);
+  border-radius: 14px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+.btn-upload-header:hover { background: rgba(255,255,255,0.28); }
+
+/* ── Modal overlay ─────────────────────────────────────── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 2000;
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
+
+/* ── Upload modal card ─────────────────────────────────── */
+.upload-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2100;
+  width: min(480px, 94vw);
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.30);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: modalIn 0.22s ease;
+}
+
+@keyframes modalIn {
+  from { opacity: 0; transform: translate(-50%, -48%) scale(0.97); }
+  to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+/* ── Modal header ──────────────────────────────────────── */
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 20px 14px;
+  background: linear-gradient(135deg, #14532d 0%, #166534 100%);
+  color: #fff;
+}
+.modal-title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.modal-icon   { font-size: 20px; }
+.modal-title  { margin: 0; font-size: 16px; font-weight: 700; }
+.modal-close  {
+  background: rgba(255,255,255,0.15);
+  border: none;
+  color: #fff;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  font-size: 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+.modal-close:hover { background: rgba(255,255,255,0.30); }
+
+/* ── Modal body ────────────────────────────────────────── */
+.modal-body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* ── Image upload zone ─────────────────────────────────── */
+.upload-zone {
+  position: relative;
+  border: 2px dashed #86efac;
+  border-radius: 12px;
+  background: #f0fdf4;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 160px;
+  transition: border-color 0.2s, background 0.2s;
+  overflow: hidden;
+}
+.upload-zone:hover {
+  border-color: #14532d;
+  background: #dcfce7;
+}
+.upload-zone.has-preview { min-height: 180px; }
+
+.upload-icon  { margin-bottom: 10px; opacity: 0.8; }
+.upload-hint  { margin: 0; font-size: 14px; font-weight: 600; color: #14532d; }
+.upload-sub   { margin: 4px 0 0; font-size: 11px; color: #6b7280; }
+
+/* Image preview inside zone */
+.img-preview {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  display: block;
+}
+
+/* Hover overlay on preview */
+.preview-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.upload-zone:hover .preview-overlay { opacity: 1; }
+
+/* ── Form fields ───────────────────────────────────────── */
+.form-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.field-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #374151;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+.label-icon { font-size: 13px; }
+.field-input {
+  padding: 9px 12px;
+  border: 1.5px solid #d1fae5;
+  border-radius: 8px;
+  font-size: 13px;
+  color: #1a2535;
+  background: #f9fafb;
+  outline: none;
+  transition: border-color 0.2s, background 0.2s;
+  width: 100%;
+  box-sizing: border-box;
+}
+.field-input:focus {
+  border-color: #14532d;
+  background: #fff;
+}
+.field-input[type="date"] { cursor: pointer; }
+
+/* ── Modal footer ──────────────────────────────────────── */
+.modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 14px 20px 18px;
+  border-top: 1px solid #e5e7eb;
+  background: #fafafa;
+}
+.btn-cancel {
+  padding: 8px 20px;
+  background: #fff;
+  color: #6b7280;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-cancel:hover { background: #f3f4f6; }
+
+.btn-submit {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 22px;
+  background: #14532d;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(20,83,45,0.30);
+  transition: background 0.2s, opacity 0.2s;
+}
+.btn-submit:hover:not(:disabled) { background: #166534; }
+.btn-submit:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* ── Modal body scroll ─────────────────────────────────── */
+.upload-modal .modal-body {
+  max-height: 68vh;
+  overflow-y: auto;
+  padding: 18px 20px 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* ── Form section ──────────────────────────────────────── */
+.form-section {
+  margin-bottom: 18px;
+}
+.section-heading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: #14532d;
+  margin-bottom: 10px;
+}
+.section-bar {
+  width: 3px;
+  height: 14px;
+  background: #14532d;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+/* ── Two-column row ────────────────────────────────────── */
+.field-row-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+/* ── Field group ───────────────────────────────────────── */
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 10px;
+}
+.field-row-2 .field-group { margin-bottom: 0; }
+
+.field-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #374151;
+  text-transform: uppercase;
+  letter-spacing: 0.35px;
+}
+.req { color: #dc2626; margin-left: 2px; }
+
+.field-input {
+  padding: 8px 11px;
+  border: 1.5px solid #d1fae5;
+  border-radius: 7px;
+  font-size: 13px;
+  color: #1a2535;
+  background: #f9fafb;
+  outline: none;
+  transition: border-color 0.18s, background 0.18s;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.field-input:focus {
+  border-color: #14532d;
+  background: #fff;
+}
+/* Hide number spinners */
+.field-input[type="number"]::-webkit-outer-spin-button,
+.field-input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; }
+.field-input[type="number"] { -moz-appearance: textfield; appearance: textfield; }
+
+.field-textarea {
+  resize: vertical;
+  min-height: 72px;
+  line-height: 1.5;
+}
+
+/* ── Toggle switch ─────────────────────────────────────── */
+.toggle-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: default;
+}
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 22px;
+  flex-shrink: 0;
+}
+.toggle-switch input { opacity: 0; width: 0; height: 0; }
+.toggle-track {
+  position: absolute;
+  inset: 0;
+  background: #cbd5e1;
+  border-radius: 22px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.toggle-switch input:checked + .toggle-track { background: #14532d; }
+.toggle-thumb {
+  position: absolute;
+  top: 3px; left: 3px;
+  width: 16px; height: 16px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform 0.2s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+.toggle-switch input:checked + .toggle-track .toggle-thumb {
+  transform: translateX(18px);
+}
+.toggle-val       { font-size: 12px; font-weight: 600; color: #6b7280; }
+.toggle-val.yes   { color: #14532d; }

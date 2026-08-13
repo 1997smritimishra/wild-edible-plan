@@ -1,0 +1,7 @@
+/* The map fills the entire viewport; terrain panel overlays it via fixed positioning */
+:host {
+  display: block;
+  width: 100%;
+  height: 100vh;
+  position: relative;
+}
